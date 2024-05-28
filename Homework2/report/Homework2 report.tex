@@ -1,0 +1,218 @@
+%保存为UTF-8编码格式
+%用xelatex编译
+ 
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry} %页边距
+\CTEXsetup[format={\Large\bfseries}]{section} %设置章标题字号为Large，居左
+%\CTEXsetup[number={\chinese{section}}]{section}
+%\CTEXsetup[name={（,）}]{subsection}
+%\CTEXsetup[number={\chinese{subsection}}]{subsection}
+%\CTEXsetup[name={（,）}]{subsubsection}
+%\CTEXsetup[number=\arabic{subsubsection}]{subsubsection}  %以上四行为各级标题样式设置，可根据需要做修改
+ 
+\linespread{1.5} %设置全文行间距
+ 
+ 
+%\usepackage[english]{babel}
+%\usepackage{float}     %放弃美学排版图表
+\usepackage{fontspec}   %修改字体
+\usepackage{amsmath, amsfonts, amssymb} % 数学公式相关宏包
+\usepackage{color}      % color content
+\usepackage{graphicx}   % 导入图片
+\usepackage{subfigure}  % 并排子图
+\usepackage{url}        % 超链接
+\usepackage{bm}         % 加粗部分公式，比如\bm{aaa}aaa
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{longtable}  %长表格
+\usepackage{supertabular}%跨页表格
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{changepage}
+\usepackage{caption}
+\usepackage[dvipsnames]{xcolor} % 更全的色系
+\usepackage{listings} % 排代码用的宏包
+ 
+\lstset{
+	basicstyle          =   \small\ttfamily,          % 基本代码风格
+	keywordstyle        =   \bfseries,          % 关键字风格
+	commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+	stringstyle         =   \ttfamily,  % 字符串风格
+	flexiblecolumns,                % 别问为什么，加上这个
+	numbers             =   left,   % 行号的位置在左边
+	showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+	numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+	showstringspaces    =   false,
+	captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+	frame               =   lrtb,   % 显示边框
+}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%
+% -- text font --
+% compile using Xelatex
+%%%%%%%%%%%%%%%%%%%%%%%
+% -- 中文字体 --
+%\setCJKmainfont{Microsoft YaHei}  % 微软雅黑
+%\setCJKmainfont{YouYuan}  % 幼圆
+%\setCJKmainfont{NSimSun}  % 新宋体
+%\setCJKmainfont{KaiTi}    % 楷体
+\setCJKmainfont{SimSun}   % 宋体
+%\setCJKmainfont{SimHei}   % 黑体
+ 
+% -- 英文字体 --
+\setmainfont{Times New Roman}
+%\setmainfont{DejaVu Sans}
+%\setmainfont{Latin Modern Mono}
+%\setmainfont{Consolas}
+%
+%
+\renewcommand{\algorithmicrequire}{ \textbf{Input:}}     % use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{ \textbf{Initialize:}} % use Initialize in the format of Algorithm
+\renewcommand{\algorithmicreturn}{ \textbf{Output:}}     % use Output in the format of Algorithm
+\renewcommand{\abstractname}{\textbf{\large {摘\quad 要}}} %更改摘要二字的样式
+\newcommand{\xiaosi}{\fontsize{12pt}{\baselineskip}}     %\xiaosi代替设置12pt字号命令,不加\selectfont,行间距设置无效
+\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}
+ 
+\usepackage{fancyhdr} %设置全文页眉、页脚的格式
+\pagestyle{fancy}
+\lhead{}           %页眉左边设为空
+\chead{}           %页眉中间
+\rhead{}           %页眉右边
+%\rhead{\includegraphics[width=1.2cm]{1.eps}}  %页眉右侧放置logo
+\lfoot{}          %页脚左边
+\cfoot{\thepage}  %页脚中间
+\rfoot{}          %页脚右边
+ 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%
+%  设置水印
+%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{draftwatermark}         % 所有页加水印
+%\usepackage[firstpage]{draftwatermark} % 只有第一页加水印
+% \SetWatermarkText{Water-Mark}           % 设置水印内容
+% \SetWatermarkText{\includegraphics{fig/ZJDX-WaterMark.eps}}         % 设置水印logo
+% \SetWatermarkLightness{0.9}             % 设置水印透明度 0-1
+% \SetWatermarkScale{1}                   % 设置水印大小 0-1
+ 
+\usepackage{hyperref} %bookmarks
+\hypersetup{colorlinks, bookmarks, unicode} %unicode
+ 
+ 
+ 
+\title{\textbf{\Large{第二次小作业：判别式神经网络实践 报告}}}
+\author{涂宇清}
+\date{522030910152}
+ 
+ 
+ 
+\begin{document}
+ 
+\maketitle
+%\tableofcontents
+\setcounter{page}{1}        %从下面开始编页，页脚格式为导言部分设置的格式
+ 
+ 
+\section{构建卷积神经网络（CNN）在CIFAR-10数据集上训练测试}
+
+\subsection{CNN网络构建}
+采用ResNet网络结构，包含1个卷积层和4个残差块，其中每个残差块包含两个卷积层，每个卷积层后接一个ReLU激活函数。详细结构见代码。
+
+\subsection{训练模型}
+使用Adam优化算法训练模型，学习率为0.0001。定义损失函数为交叉熵损失函数。训练50轮，每轮训练集训练一次，测试集测试一次。训练结果如下：
+
+\begin{figure}[H]
+    \centering
+    \subfigure[ResNet损失函数变化]{
+        \includegraphics[width=0.4\textwidth]{ResNet Loss.png}
+    }
+    \subfigure[ResNet准确率变化]{
+        \includegraphics[width=0.4\textwidth]{ResNet Accuracy.png}
+    }
+    \caption{ResNet训练结果}
+\end{figure}
+ 
+通过损失函数变换可以看出：在训练到第10轮左右后，测试集损失函数逐渐上升，训练集损失函数逐渐下降，说明模型出现了过拟合现象，模型在第10轮左右达到了最佳性能。故取第10轮的测试结果作为最终结果，测试集准确率约为73\%，模型在CIFAR-10数据集上的性能较好。
+
+\section{构建循环神经网络（RNN）在CIFAR-10数据集上训练测试}
+
+\subsection{RNN网络构建}
+采用ResNet网络结构，包含1个RNN层和1个全连接层。详细结构见代码。
+
+\subsection{训练模型}
+使用Adam优化算法训练模型，学习率为0.0001。定义损失函数为交叉熵损失函数。训练100轮，每轮训练集训练一次，测试集测试一次。训练结果如下：
+
+\begin{figure}[H]
+    \centering
+    \subfigure[RNN损失函数变化]{
+        \includegraphics[width=0.4\textwidth]{RNN Loss.png}
+    }
+    \subfigure[RNN准确率变化]{
+        \includegraphics[width=0.4\textwidth]{RNN Accuracy.png}
+    }
+    \caption{RNN训练结果}
+\end{figure}
+ 
+通过损失函数变换可以看出：在训练到第60轮左右后，测试集损失函数变化不大，训练集损失函数逐渐下降，说明模型在第60轮左右达到了最佳性能。故取第60轮的测试结果作为最终结果，测试集准确率约为54\%.可见，RNN模型在CIFAR-10数据集上的性能比CNN模型差。
+
+\section{划分训练集后再次训练神经网络}
+具体划分方式为：所有分类为（0, 1, 2, 3, 4）的图像仅保留10\%，剩余部分不变。
+
+划分后训练结果如下：
+\begin{figure}[H]
+    \centering
+    \subfigure[划分后ResNet损失函数变化]{
+        \includegraphics[width=0.4\textwidth]{ResNet+Partition Loss.png}
+    }
+    \subfigure[划分后ResNet准确率变化]{
+        \includegraphics[width=0.4\textwidth]{ResNet+Partition Accuracy.png}
+    }
+    \caption{划分后ResNet训练结果}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[划分后RNN损失函数变化]{
+        \includegraphics[width=0.4\textwidth]{RNN+Partition Loss.png}
+    }
+    \subfigure[划分后RNN准确率变化]{
+        \includegraphics[width=0.4\textwidth]{RNN+Partition Accuracy.png}
+    }
+    \caption{划分后RNN训练结果}
+\end{figure}
+
+由准确率变化图可以看出：划分训练集后，模型的性能均有所下降，训练集在ResNet上的准确率下降到58\%左右，在RNN上的准确率下降到37\%左右。说明划分训练集后，数据的不平衡性对模型的性能有一定影响。
+
+\section{改进模型}
+
+\subsection{对训练集进行数据增广}
+对训练集进行数据增广，包括随机水平翻转、颜色变换、随机旋转、随机裁剪。训练结果如下：
+\begin{figure}[H]
+    \centering
+    \subfigure[数据增广后ResNet损失函数变化]{
+        \includegraphics[width=0.4\textwidth]{ResNet+Partition+Augmentation Loss.png}
+    }
+    \subfigure[数据增广后ResNet准确率变化]{
+        \includegraphics[width=0.4\textwidth]{ResNet+Partition+Augmentation Accuracy.png}
+    }
+    \caption{数据增广后ResNet训练结果}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[数据增广后RNN损失函数变化]{
+        \includegraphics[width=0.4\textwidth]{RNN+Partition+Augmentation Loss.png}
+    }
+    \subfigure[数据增广后RNN准确率变化]{
+        \includegraphics[width=0.4\textwidth]{RNN+Partition+Augmentation Accuracy.png}
+    }
+    \caption{数据增广后RNN训练结果}
+\end{figure}
+
+由准确率变化图可以看出：数据增广后，ResNet模型的性能相较于数据增广前有所提升。说明数据增广对ResNet的性能有一定提升。这是因为数据增广可以增加训练集的多样性，提高模型的泛化能力。而RNN模型的性能相较于数据增广前并没有明显提升，说明RNN模型对数据增广的适应性较差。
+
+
+
+ 
+\end{document}
