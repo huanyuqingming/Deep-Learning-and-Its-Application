@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: comer
+Version: 0.0.1
+Summary: CoMER: Modeling Coverage for Transformer-based Handwritten Mathematical Expression Recognition
+Home-page: 
+Author: 
+Author-email: 
+Requires-Dist: einops==0.3.0
+Requires-Dist: editdistance==0.5.3
+Requires-Dist: jsonargparse[signatures]==3.17.0
+Requires-Dist: flake8==3.9.0
+Requires-Dist: black==22.3.0
+Requires-Dist: isort==5.8.0
+Requires-Dist: jupyter==1.0.0
+Requires-Dist: opencv-python==4.5.4.60
+Requires-Dist: matplotlib==3.5.1
+Requires-Dist: typer==0.4.1
+Requires-Dist: beautifulsoup4==4.10.0
+Requires-Dist: lxml>=4.9.1

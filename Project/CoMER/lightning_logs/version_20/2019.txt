@@ -1,0 +1,5 @@
+Struct Rate: 58.47
+Exprate 0 tolerated: 39.033
+Exprate 1 tolerated: 52.127
+Exprate 2 tolerated: 57.381
+Exprate 3 tolerated: 60.884
